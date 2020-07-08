@@ -1,0 +1,38 @@
+{{template "header"}}
+
+{{if .}}
+    {{if eq .Err .NameErr}}
+
+        <form method="POST">
+            <label for="name"><p class="error">There is no user with this name</p> Name:</label>
+            <input type="text" id="name" name="name" placeholder="UserName" required></input>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" placeholder="*******" required></input>
+            <button type="submit">Submit</button>
+        </form>
+
+    {{else}}
+
+        <form method="POST">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" value="{{.Name}}" required></input>
+            <label for="password"><p class="error">This password is not valid</p> Password:</label>
+            <input type="password" id="password" name="password" placeholder="password" required></input>
+            <button type="submit">Submit</button>
+        </form>
+    {{end}}
+{{else}}
+
+    <form method="POST">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" placeholder="blaster_bob_335" required></input>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" placeholder="*********" required></input>
+        <button type="submit">Submit</button>
+    </form>
+
+{{end}}
+
+
+
+{{template "footer"}}

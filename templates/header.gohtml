@@ -1,0 +1,30 @@
+{{define "header"}}
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="robots" content="index,follow">
+        <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
+        <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet"> 
+        <title>Photo Blog</title>
+    </head>
+    <body>
+    <header>
+    <h1 id="Logo">Photo Blog</h1>
+    {{if .}}
+        <ul>
+            <li><a href="/">Main</a></li>
+            <li><a href="/post">Post Photo</a></li>
+            <li><a href="/logout">Log out</a></li>
+        </ul>
+    {{else}}
+        <ul>
+            <li><a href="/">Main</a></li>
+            <li><button id="login" type="button" onclick="window.location.href='/login'">Login</button></li>
+            <li><button id="signup" type="button" onclick="window.location.href='/signup'">Sign Up</button></li>
+        </ul>
+    {{end}}
+</header>
+<main>
+{{end}}}

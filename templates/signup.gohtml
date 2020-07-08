@@ -1,0 +1,51 @@
+{{template "header"}}
+
+{{if .}}
+    {{if eq .Err .NameErr}}
+    {{/* //already tried to logg in but an error occured */}}
+
+        <form method="POST">
+            <label for="name"><p class="error">This name is already brought</p> Name:</label>
+            <input type="text" id="name" name="name" placeholder="your USERname" required></input>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="emale" value="{{.Email}}" required></input>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required placeholder="write your password again please - it's for your own security"></input>
+            <label for="password1">Password:</label>
+            <input type="password1" id="password1" name="password1" placeholder="write again" required></input>
+            <button type="submit">Submit</button>
+        </form>
+
+    {{else}}
+
+        <form method="POST">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" value="{{.Name}}" required></input>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="emale" value="{{.Email}}" required></input>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" placeholder="your password here" required></input>
+            <label for="password1">Password:</label>
+            <input type="password1" id="password1" name="password1" placeholder="is different with password here" required></input>
+            <button type="submit">Submit</button>
+        </form>
+    {{end}}
+{{else}}
+
+    <form method="POST">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" placeholder="blaster_bob_335" required></input>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" placeholder="blasterbob@gmail.com" required></input>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" placeholder="*********" required></input>
+        <label for="password1">Password:</label>
+        <input type="password" id="password1" name="password1" placeholder="*********" required></input>
+        <button type="submit">Submit</button>
+    </form>
+
+{{end}}
+
+
+
+{{template "footer"}}

@@ -1,0 +1,14 @@
+{{template "header" .User}}
+
+<div class="feed">
+
+{{if .User}}
+    <p class="comment">Hi {{.User}}!</p>
+{{end}}
+
+{{range .Pics}}
+    <img src="/public/pics/{{.}}">
+{{end}}
+
+</div>
+{{template "footer"}}

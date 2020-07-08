@@ -1,0 +1,16 @@
+{{template "header" .}}
+
+<h1>Your pictures:</h1>
+
+{{range $ind, $pic := .}}
+    {{if not (eq $ind 0)}}
+        <img src="/public/pics/{{$pic}}">
+    {{end}}
+{{end}}
+
+<form method="post" enctype="multipart/form-data">
+    <input type="file" name="nf">
+    <button type="submit">Submit</button>
+</form>
+
+{{template "footer"}}
