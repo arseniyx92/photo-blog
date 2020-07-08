@@ -3,9 +3,7 @@
 <h1>Your pictures:</h1>
 
 {{range $ind, $pic := .}}
-    {{if not (eq $ind 0)}}
-        <img src="/public/pics/{{$pic}}">
-    {{end}}
+    <img src="/public/pics/{{$pic}}">
 {{end}}
 
 <form method="post" enctype="multipart/form-data">

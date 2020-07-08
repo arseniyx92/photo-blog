@@ -64,6 +64,10 @@ func post(w http.ResponseWriter, req *http.Request) {
 		http.Redirect(w, req, "/", http.StatusSeeOther)
 	}
 	// main
+	c = &http.Cookie{
+		Name:  "feed",
+		Value: "",
+	}
 	if req.Method == http.MethodPost {
 		mf, fh, err := req.FormFile("nf")
 		check(err)
@@ -86,6 +90,7 @@ func post(w http.ResponseWriter, req *http.Request) {
 		c = appendValue(w, c, fname)
 	}
 	xs := strings.Split(c.Value, "|")
+	xs = append(xs[1:])
 	tpl.ExecuteTemplate(w, "post.gohtml", xs)
 }
 
@@ -162,6 +167,7 @@ func signup(w http.ResponseWriter, req *http.Request) {
 	}
 
 	db, err := sql.Open("mysql", "arseniyx92:123@unix(/cloudsql/photo-blog-282118:europe-west6:photo-blog-users)/users?charset=utf8")
+	// db, err := sql.Open("mysql", "arseniyx92:123@tcp(34.65.166.197)/users?charset=utf8")
 	check(err)
 	defer db.Close()
 	err = db.Ping()
@@ -222,6 +228,7 @@ func login(w http.ResponseWriter, req *http.Request) {
 	}
 
 	db, err := sql.Open("mysql", "arseniyx92:123@unix(/cloudsql/photo-blog-282118:europe-west6:photo-blog-users)/users?charset=utf8")
+	// db, err := sql.Open("mysql", "arseniyx92:123@tcp(34.65.166.197)/users?charset=utf8")
 	check(err)
 	defer db.Close()
 	err = db.Ping()
