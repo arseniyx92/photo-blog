@@ -1,9 +1,9 @@
-{{template "header" .}}
+{{template "header" .User}}
 
 <h1>Your pictures:</h1>
 
-{{range $ind, $pic := .}}
-    <img src="/public/pics/{{$pic}}">
+{{range $ind, $pic := .Pics}}
+    <img src="{{$pic}}">
 {{end}}
 
 <form method="post" enctype="multipart/form-data">

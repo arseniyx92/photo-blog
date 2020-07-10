@@ -1,5 +1,13 @@
-runtime: go113
-handlers:
-  - url: /.*
-    script: auto
-    secure: always
+# runtime: go113
+# handlers:
+#   - url: /.*
+#     script: auto
+#     secure: always
+runtime: go
+env: flex
+
+automatic_scaling:
+  min_num_instances: 1
+
+env_variables:
+  GCLOUD_STORAGE_BUCKET: photo-blog-282118.appspot.com
