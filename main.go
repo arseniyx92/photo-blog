@@ -9,8 +9,11 @@ import (
 	"log"
 	"mime/multipart"
 	"net/http"
-	"os"
+	"sort"
 	"strings"
+	"time"
+
+	//"os"
 
 	"cloud.google.com/go/storage"
 	_ "github.com/go-sql-driver/mysql"
@@ -29,11 +32,25 @@ var (
 	storageClient *storage.Client
 
 	// Set this in app.yaml when running in production.
-	bucket = os.Getenv("photo-blog-282118.appspot.com")
+	// bucket = os.Getenv("GCLOUD_STORAGE_BUCKET")
+	bucket string
 )
+
+//Pic is ...
+type Pic struct {
+	Created  time.Time
+	Username string
+	Link     string
+}
 
 //Feed is ...
 type Feed struct {
+	User string
+	Pics []Pic
+}
+
+//CurFeed is ...
+type CurFeed struct {
 	User string
 	Pics []string
 }
@@ -52,6 +69,7 @@ func init() {
 }
 
 func main() {
+	bucket = "photo-blog-282118.appspot.com"
 	ctx := context.Background()
 	var err error
 	storageClient, err = storage.NewClient(ctx)
@@ -65,7 +83,7 @@ func main() {
 	http.HandleFunc("/logout", logout)
 	http.Handle("/favicon.ico", http.NotFoundHandler())
 	http.Handle("/stylesheets/", http.StripPrefix("/stylesheets", http.FileServer(http.Dir("./stylesheets"))))
-	http.Handle("/public/pics/", http.StripPrefix("/public/pics", http.FileServer(http.Dir("./public/images"))))
+	// http.Handle("/public/pics/", http.StripPrefix("/public/pics", http.FileServer(http.Dir("./public/images"))))
 	err = http.ListenAndServe(":8080", nil)
 	check(err)
 }
@@ -74,12 +92,14 @@ func post(w http.ResponseWriter, req *http.Request) {
 	//getting and checking cookie
 	c, err := req.Cookie("session")
 	if err == http.ErrNoCookie {
-		http.Redirect(w, req, "/", http.StatusSeeOther)
+		http.Redirect(w, req, "/login", http.StatusSeeOther)
+		return
 	} else if _, ok := dbSession[c.Value]; !ok {
-		http.Redirect(w, req, "/", http.StatusSeeOther)
+		http.Redirect(w, req, "/login", http.StatusSeeOther)
+		return
 	}
 	// main
-	feed := Feed{}
+	feed := CurFeed{}
 	feed.User = dbSession[c.Value]
 	c = &http.Cookie{
 		Name:  "feed",
@@ -91,17 +111,8 @@ func post(w http.ResponseWriter, req *http.Request) {
 		defer mf.Close()
 		// creating new file
 		//connecting to gcloud
-		fname, err := uploadFile(req, mf, fh)
+		fname, err := uploadFile(feed.User, req, mf, fh)
 		check(err)
-		// wd, err := os.Getwd()
-		// check(err)
-		// path := filepath.Join(wd, "public", "images", fname)
-		// nf, err := os.Create(path)
-		// check(err)
-		// defer nf.Close()
-		// copy
-		// mf.Seek(0, 0)
-		// io.Copy(nf, mf)
 		ctx := appengine.NewContext(req)
 		obj, err := storageClient.Bucket(bucket).Object(fname).Attrs(ctx)
 		check(err)
@@ -113,14 +124,13 @@ func post(w http.ResponseWriter, req *http.Request) {
 	tpl.ExecuteTemplate(w, "post.gohtml", feed)
 }
 
-func uploadFile(req *http.Request, mf multipart.File, fh *multipart.FileHeader) (string, error) {
+func uploadFile(user string, req *http.Request, mf multipart.File, fh *multipart.FileHeader) (string, error) {
 	//getting extension
-	ext, err := fileFilter(req, fh)
-	check(err)
+	ext := fileFilter(req, fh)
 	//creating a sha
 	h := sha1.New()
 	io.Copy(h, mf)
-	fname := fmt.Sprintf("%x", h.Sum(nil)) + "." + ext
+	fname := user + "_" + fmt.Sprintf("%x", h.Sum(nil)) + "." + ext
 	//putting file
 	mf.Seek(0, 0)
 	ctx := appengine.NewContext(req)
@@ -133,15 +143,15 @@ func putFile(ctx context.Context, fname string, rdr io.Reader) error {
 	return sw.Close()
 }
 
-func fileFilter(req *http.Request, fh *multipart.FileHeader) (string, error) {
+func fileFilter(req *http.Request, fh *multipart.FileHeader) string {
 	//ext := strings.Split(fh.Filename, ".")[1]
 	ext := fh.Filename[strings.LastIndex(fh.Filename, ".")+1:]
-
-	switch ext {
-	case "jpg", "jpeg", "txt", "md":
-		return ext, nil
-	}
-	return ext, fmt.Errorf("We do not allow files of type %s. We only allow jpg, jpeg, txt, md extensions", ext)
+	return ext
+	// switch ext {
+	// case "jpg", "jpeg", "txt", "md":
+	// 	return ext, nil
+	// }
+	// return ext, fmt.Errorf("We do not allow files of type %s. We only allow jpg, jpeg, txt, md extensions", ext)
 }
 
 func appendValue(w http.ResponseWriter, c *http.Cookie, fname string) *http.Cookie {
@@ -158,6 +168,7 @@ func logout(w http.ResponseWriter, req *http.Request) {
 	c, err := req.Cookie("session")
 	if err == http.ErrNoCookie {
 		http.Redirect(w, req, "/", http.StatusSeeOther)
+		return
 	}
 	c.MaxAge = -1
 	http.SetCookie(w, c)
@@ -172,13 +183,15 @@ func index(w http.ResponseWriter, req *http.Request) {
 	} else {
 		feed.User = dbSession[c.Value]
 	}
-	c = &http.Cookie{
-		Name:  "feed",
-		Value: "",
-	}
+	// c = &http.Cookie{
+	// 	Name:  "feed",
+	// 	Value: "",
+	// }
 	ctx := appengine.NewContext(req)
 	query := &storage.Query{Prefix: ""}
+	query.SetAttrSelection([]string{"Created", "Name", "MediaLink"})
 	it := storageClient.Bucket(bucket).Objects(ctx, query)
+	xs := make([]Pic, 0, 100)
 	for {
 		attrs, err := it.Next()
 		if err == iterator.Done {
@@ -187,10 +200,15 @@ func index(w http.ResponseWriter, req *http.Request) {
 		if err != nil {
 			log.Fatal(err)
 		}
-		c = appendValue(w, c, attrs.MediaLink)
+		// c = appendValue(w, c, attrs.MediaLink)
+		s := attrs.Name
+		xs = append(xs, Pic{attrs.Created, strings.Split(s, "_")[0], attrs.MediaLink})
 	}
-	xs := strings.Split(c.Value, "|")
-	xs = append(xs[1:])
+	// xs := strings.Split(c.Value, "|")
+	// xs = append(xs[1:])
+	sort.SliceStable(xs, func(i, j int) bool {
+		return xs[i].Created.After(xs[j].Created)
+	})
 	feed.Pics = xs
 	tpl.ExecuteTemplate(w, "index.gohtml", feed)
 }
@@ -324,6 +342,6 @@ func GenCookie(w http.ResponseWriter, name string) {
 		Value: SId.String(),
 	}
 	dbSession[SId.String()] = name
-	c.MaxAge = 120
+	c.MaxAge = 600
 	http.SetCookie(w, c)
 }

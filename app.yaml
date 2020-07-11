@@ -1,13 +1,27 @@
-# runtime: go113
-# handlers:
-#   - url: /.*
-#     script: auto
-#     secure: always
-runtime: go
-env: flex
+# # runtime: go113
+# # handlers:
+# #   - url: /.*
+# #     script: auto
+# #     secure: always
+# runtime: go
+# env: flex
 
-automatic_scaling:
-  min_num_instances: 1
+# automatic_scaling:
+#   min_num_instances: 1
 
+# env_variables:
+#   GCLOUD_STORAGE_BUCKET: photo-blog-282118.appspot.com
+
+runtime: go113
+instance_class: F2
 env_variables:
   GCLOUD_STORAGE_BUCKET: photo-blog-282118.appspot.com
+handlers:
+  - url: /stylesheets
+    static_dir: stylesheets
+  - url: /(.*\.(gif|png|jpg))$
+    static_files: static/\1
+    upload: static/.*\.(gif|png|jpg)$
+  - url: /.*
+    script: auto
+    secure: always

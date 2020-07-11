@@ -1,185 +1,189 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-html{
-    font-size: 62.5%;
-    font-family: 'Pacifico', cursive;
-    color: rgb(133, 0, 211);
-    font-size: 2rem;
+html {
+  font-size: 62.5%;
+  font-family: "Pacifico", cursive;
+  color: rgb(133, 0, 211);
+  font-size: 2rem;
 }
 
-body{
-    font-size: calc(0.5rem + 1vw);
-    background: rgb(223, 62, 110);
+body {
+  font-size: calc(0.5rem + 1vw);
+  background: rgb(223, 62, 110);
 }
 
-main{
-    width: 90%;
-    margin: auto;
-    /* display: flex; */
-    /* flex-direction: column;
+main {
+  width: 90%;
+  margin: auto;
+  /* display: flex; */
+  /* flex-direction: column;
     align-items: center; */
 }
 
-.comment{
-    font-size: calc(1.6rem + 2vw);
-    color: white;
-
+.comment {
+  font-size: calc(1.6rem + 2vw);
+  color: white;
 }
 
-.feed{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 2rem;
+figure {
+  margin: 0.6rem;
 }
 
-img{
-    margin-top: 1rem;
-    width: 90vw;
+.feed {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2rem;
 }
 
-form{
-    margin-top: 3rem;
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    flex: 1 1 2rem;
-    min-height: 40vh;
-    justify-content: space-evenly;
+img {
+  margin-top: 1rem;
+  width: 90vw;
 }
 
-form button{
-    font-size: calc(0.5rem + 1vw);
-    font-family: 'Pacifico', cursive;
-    padding: 1rem;
-    display: block;
-    align-self: flex-end;
-    margin: 2rem;
-    outline: none;
-    cursor: pointer;
-    color: white;
-    border: none;
-    border-radius: 0.6rem;
-    background: rgb(43, 184, 189);
-    box-shadow: 0.4rem 0.5rem 0.5rem rgb(45, 131, 116);
-    transition: all 3ms ease-in-out;
+form {
+  margin-top: 3rem;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  flex: 1 1 2rem;
+  min-height: 40vh;
+  justify-content: space-evenly;
 }
 
-form button:hover{
-    transform: translateX(0.13rem);
-    box-shadow: 0.2rem 0.3rem 0.3rem rgb(45, 131, 116);
+form button {
+  font-size: calc(0.5rem + 1vw);
+  font-family: "Pacifico", cursive;
+  padding: 1rem;
+  display: block;
+  align-self: flex-end;
+  margin: 2rem;
+  outline: none;
+  cursor: pointer;
+  color: white;
+  border: none;
+  border-radius: 0.6rem;
+  background: rgb(43, 184, 189);
+  box-shadow: 0.4rem 0.5rem 0.5rem rgb(45, 131, 116);
+  transition: all 3ms ease-in-out;
 }
 
-form button:active{
-    transform: translateX(0.2rem);
-    box-shadow: 0.1rem 0.2rem 0.2rem rgb(45, 131, 116);
+form button:hover {
+  transform: translateX(0.13rem);
+  box-shadow: 0.2rem 0.3rem 0.3rem rgb(45, 131, 116);
 }
 
-label{
-    font-size: calc(0.5rem + 1vw);
-    color: white;
-    font-size: 1.5rem;
+form button:active {
+  transform: translateX(0.2rem);
+  box-shadow: 0.1rem 0.2rem 0.2rem rgb(45, 131, 116);
 }
 
-input{
-    font-size: calc(0.5rem + 1vw);
-    background: rgb(43, 184, 189);
-    border: none;
-    border-radius: 0.6rem;
-    padding: 1rem;
-    color: white;
+label {
+  font-size: calc(0.5rem + 1vw);
+  color: white;
+  font-size: 1.5rem;
 }
 
-label p{
-    color: rgb(43, 184, 189);
+input {
+  font-size: calc(0.5rem + 1vw);
+  background: rgb(43, 184, 189);
+  border: none;
+  border-radius: 0.6rem;
+  padding: 1rem;
+  color: white;
 }
 
-header{
-    width: 90%;
-    margin: auto;
-    align-items: center;
-    justify-content: center;
-    display: flex;
-    margin-top: 2rem;
-    flex-wrap: wrap;
-    min-height: 2rem;
-    position: sticky;
-    top: 0%;
-    /* background-color: rosybrown; */
+label p {
+  color: rgb(43, 184, 189);
 }
 
-header ul{
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    list-style: none;
-    flex: 1 1 20rem;
+header {
+  width: 90%;
+  margin: auto;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  min-height: 2rem;
+  position: sticky;
+  top: 0%;
+  /* background-color: rosybrown; */
 }
 
-#Logo{
-    flex: 2 1 20rem;
-    margin: 0.5rem;
+header ul {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  list-style: none;
+  flex: 1 1 20rem;
 }
 
-li button{
-    font-size: calc(0.5rem + 1vw);
-    font-family: 'Pacifico', cursive;
-    padding: 0.6rem;
-    display: block;
-    align-self: flex-end;
-    outline: none;
-    cursor: pointer;
-    color: white;
-    border: none;
-    border-radius: 0.6rem;
-    background: rgb(43, 184, 189);
-    box-shadow: 0.4rem 0.5rem 0.5rem rgb(45, 131, 116);
-    transition: all 3ms ease-in-out;
+#Logo {
+  flex: 2 1 20rem;
+  margin: 0.5rem;
 }
 
-li a{
-    font-size: calc(0.7rem + 1.6vw);
-    text-decoration: none;
-    color: rgb(133, 0, 211);
+li button {
+  font-size: calc(0.5rem + 1vw);
+  font-family: "Pacifico", cursive;
+  padding: 0.6rem;
+  display: block;
+  align-self: flex-end;
+  outline: none;
+  cursor: pointer;
+  color: white;
+  border: none;
+  border-radius: 0.6rem;
+  background: rgb(43, 184, 189);
+  box-shadow: 0.4rem 0.5rem 0.5rem rgb(45, 131, 116);
+  transition: all 3ms ease-in-out;
 }
 
-li a:hover{
-    text-decoration: underline;
+li a {
+  font-size: calc(0.7rem + 1.6vw);
+  text-decoration: none;
+  color: rgb(133, 0, 211);
 }
 
-#login{
-    background: rgb(12, 223, 30);
-    box-shadow: 0.2rem 0.3rem 0.3rem rgb(17, 131, 27);
+li a:hover {
+  text-decoration: underline;
 }
 
-#signup{
-    background: rgb(13, 57, 153);
-    box-shadow: 0.2rem 0.3rem 0.3rem rgb(9, 38, 100);
+#login {
+  background: rgb(12, 223, 30);
+  box-shadow: 0.2rem 0.3rem 0.3rem rgb(17, 131, 27);
 }
 
-#login:hover{
-    transform: translateX(0.13rem);
-    box-shadow: 0.1rem 0.2rem 0.1rem rgb(17, 131, 27);
+#signup {
+  background: rgb(13, 57, 153);
+  box-shadow: 0.2rem 0.3rem 0.3rem rgb(9, 38, 100);
 }
 
-#login:active{
-    transform: translateX(0.2rem);
-    box-shadow: 0.1rem 0.1rem 0.1rem rgb(17, 131, 27);
+#login:hover {
+  transform: translateX(0.13rem);
+  box-shadow: 0.1rem 0.2rem 0.1rem rgb(17, 131, 27);
 }
 
-#signup:hover{
-    transform: translateX(0.13rem);
-    box-shadow: 0.1rem 0.2rem 0.1rem rgb(9, 38, 100);
+#login:active {
+  transform: translateX(0.2rem);
+  box-shadow: 0.1rem 0.1rem 0.1rem rgb(17, 131, 27);
 }
 
-#signup:active{
-    transform: translateX(0.2rem);
-    box-shadow: 0.1rem 0.1rem 0.1rem rgb(9, 38, 100);
+#signup:hover {
+  transform: translateX(0.13rem);
+  box-shadow: 0.1rem 0.2rem 0.1rem rgb(9, 38, 100);
+}
+
+#signup:active {
+  transform: translateX(0.2rem);
+  box-shadow: 0.1rem 0.1rem 0.1rem rgb(9, 38, 100);
 }
 
 /* @media (max-width: 280px){
@@ -189,8 +193,8 @@ li a:hover{
     }
 } */
 
-@media (max-width: 1466px){
-    header{
-        text-align: center;
-    }
+@media (max-width: 1466px) {
+  header {
+    text-align: center;
+  }
 }
